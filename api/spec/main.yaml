@@ -1,0 +1,12 @@
+openapi: 3.0.0
+
+info:
+  version: '1.0'
+  title: '2ulip clone coding'
+  description: '어플리케이션 튤립의 API 서버를 상상하며 따라해 봅니다.'
+
+paths:
+  /:
+    $ref: 'rest/health.yaml#/hi'
+
+
