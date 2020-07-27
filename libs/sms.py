@@ -9,9 +9,9 @@ class SmsHelper:
         self.sender_no = sender_no
 
     def send_auth_sms(self, sms):
-        sms_result = requests.post("{host}/sms/v2.1/appKeys/{key}/sender/sms".format(host=self.HOST, key=self.APPKEY),
+        sms_result = requests.post(f"{self.HOST}/sms/v2.1/appKeys/{self.APPKEY}/sender/sms",
                                    json={
-                'body': '[클론코딩] 인증번호는 다음과 같습니다: {}'.format(sms.auth_value),
+                'body': f'[클론코딩] 인증번호는 다음과 같습니다: {sms.auth_value}',
                 'sendNo': self.sender_no,
                 'recipientList': [{'recipientNo': sms.phone_num}]
             }).json()

@@ -9,7 +9,7 @@ from libs.sms import SmsHelper
 from libs.status import Status
 
 
-sms_helper = SmsHelper(os.environ.get('SY_TOAST_APP_KEY', ''), os.environ.get('SY_SMS_SENDER_NO', ''))
+sms_helper = SmsHelper(os.environ.get('TOAST_APP_KEY', ''), os.environ.get('SMS_SENDER_NO', ''))
 
 
 @route

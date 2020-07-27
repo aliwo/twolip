@@ -9,4 +9,6 @@ paths:
   /:
     $ref: 'rest/health.yaml#/hi'
 
+  /sms:
+    $ref: 'rest/sms.yaml#/sms'
 

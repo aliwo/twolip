@@ -1,7 +1,5 @@
 sms:
   post:
-    security:
-      - Authorization: []
     description: sms 인증을 요청합니다. 리턴받은 auth-key 를 인증할 때 전달해 주세요.
     operationId: api.rest.sms.send_sms
     requestBody:

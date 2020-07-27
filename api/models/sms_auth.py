@@ -21,19 +21,18 @@ class SmsAuth(Base):
         self.phone_num = phone_num
         self.auth_key = str(uuid.uuid4())
         self.auth_value = ''.join([str(randint(0, 9)) for _ in range(0, 6)])
-        self.expiration = datetime.now() +timedelta(minutes=10)
+        self.expiration = datetime.now() + timedelta(minutes=10)
 
     @classmethod
     def validate_sms_auth(cls, key, value, dry=False):
         from libs.database.engine import Session
         try:
             sms_auth = Session().query(SmsAuth).filter((SmsAuth.auth_key == key)
-                                                        & (SmsAuth.auth_value == value)
-                                                        & (SmsAuth.expiration >= datetime.now())).one()
+                                                       & (SmsAuth.auth_value == value)
+                                                       & (SmsAuth.expiration >= datetime.now())).one()
         except NoResultFound:
             return False
         else:
-
             if dry:
                 return True
 
@@ -41,11 +40,9 @@ class SmsAuth(Base):
             Session().flush()
             return True
 
-    @property
     def json(self):
-        return {'idx':self.id,
-                'auth_key': self.auth_key,
-                'auth_value': self.auth_value,
+        return {
+            'id': self.id,
+            'auth_key': self.auth_key,
+            'auth_value': self.auth_value
         }
-
-
