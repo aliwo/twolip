@@ -1,0 +1,27 @@
+sms:
+  post:
+    security:
+      - Authorization: []
+    description: sms 인증을 요청합니다. 리턴받은 auth-key 를 인증할 때 전달해 주세요.
+    operationId: api.rest.sms.send_sms
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              phone_num:
+                type: string
+                example: phone_num
+    responses:
+      "200":
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                auth_key:
+                  type: string
+                  example: abnuobn=av341a-bkerjhjloqe

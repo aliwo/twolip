@@ -13,7 +13,7 @@ def route(func):
             result = func(*args, **kwargs)
             log_route(func.__name__, request_at, result[0])
         except BaseError as e:
-            return e.json(), e.status_code
+            return e.json(), e.code
         return result
     return wrapper
 
