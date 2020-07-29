@@ -3,7 +3,7 @@ import json
 from flask import request
 import time
 
-# from libs.route.auth import user_id_or_zero
+from libs.route.auth import user_id_or_zero
 
 
 def log_route(handler_name, request_at, response_body):
@@ -18,8 +18,7 @@ def log_route(handler_name, request_at, response_body):
         'request_args': request.args.to_dict(),
         'request_token': request.headers.environ.get('HTTP_AUTHORIZATION', ''),
         'response_body': response_body,
-        # 'user_id': user_id_or_zero() if user_id_or_zero() else 'N/A'
+        'user_id': user_id_or_zero() if user_id_or_zero() else 'N/A'
     }, ensure_ascii=False))
-
 
 

@@ -1,0 +1,88 @@
+signup:
+  post:
+    description: '회원가'
+    operationId: api.rest.user.sign_up
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              auth_key:
+                type: string
+              auth_value:
+                type: string
+              phone:
+                type: string
+              password:
+                type: string
+    responses:
+      "200":
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  example: 3
+                token:
+                  type: string
+                  example: cjrnv1395198598...
+                  description: 앞으로 API 를 호출할때 마다 사용할 토큰입니다. Authorization Bearer 로 사용하세요.
+                expiry:
+                  type: string
+                  example: YYYY-MM-DD
+                  description: 토큰이 언제 만기되는지
+
+login:
+  post:
+    description: ''
+    operationId: api.rest.user.login
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              phone:
+                type: string
+              password:
+                type: string
+    responses:
+      "200":
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  example: cjrnv1395198598...
+                  description: 앞으로 API 를 호출할때 마다 사용할 토큰입니다. Authorization Bearer 로 사용하세요.
+                expiry:
+                  type: string
+                  example: YYYY-MM-DD
+                  description: 토큰이 언제 만기되는지
+
+me:
+  get:
+    security:
+      - Authorization: []
+    description: 자기 자신을 조회합니다.
+    operationId: api.rest.user.get_my_profile
+    responses:
+      "200":
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                okay:
+                  type: boolean
+                  example: true

@@ -9,6 +9,20 @@ paths:
   /:
     $ref: 'rest/health.yaml#/hi'
 
+  /users/signup:
+    $ref: 'rest/user.yaml#/signup'
+  /users/login:
+    $ref: 'rest/user.yaml#/login'
+  /users/me:
+    $ref: 'rest/user.yaml#/me'
+
   /sms:
     $ref: 'rest/sms.yaml#/sms'
 
+
+components:
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      x-bearerInfoFunc: libs.route.login_required.login_required

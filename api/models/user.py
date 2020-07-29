@@ -2,7 +2,7 @@ import hashlib
 from datetime import datetime
 
 from sqlalchemy import Column
-from sqlalchemy.dialects.mysql import TEXT, CHAR, BOOLEAN, DATETIME
+from sqlalchemy.dialects.mysql import CHAR, TEXT, DATETIME, BOOLEAN
 
 from libs.database.types import Base
 
@@ -13,7 +13,7 @@ class User(Base):
     password = Column(TEXT)
     nick_name = Column(CHAR(50), unique=True)
     picture = Column(TEXT)
-    registered_at = Column(DATETIME)
+    registered_at = Column(DATETIME, default=datetime.now())
 
     # profile
     religion = Column(TEXT)
@@ -30,8 +30,23 @@ class User(Base):
         super().__init__(**kwargs)
         self.phone = None
         self.password = self.gen_password_hash(password)
-        self.registered_at = datetime.now()
 
     @classmethod
-    def gen_password_hash(self, password):
+    def gen_password_hash(cls, password):
         return hashlib.sha256(password.encode('utf-8')).hexdigest()
+
+    def json(self):
+        return {
+            'id': self.id,
+            'phone': self.phone,
+            'nick_name': self.nick_name,
+            'picture': self.picture,
+            'religion': self.religion,
+            'smoke': self.smoke,
+            'job': self.job,
+            'school': self.school,
+            'major': self.major,
+            'company': self.company,
+        }
+
+
