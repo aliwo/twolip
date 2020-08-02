@@ -1,0 +1,96 @@
+match_question:
+  post:
+    security:
+      - Authorization: []
+    description: '매칭 알고리즘에 들어갈 가치관 질문을 등록합니다.'
+    operationId: api.rest.question.register_match_question
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              question_ids:
+                type: array
+                example:
+                  - 1
+                  - 2
+                  - 3
+    responses:
+      "200":
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                okay:
+                  type: boolean
+                  example: true
+
+answer:
+  post:
+    security:
+      - Authorization: []
+    description: '질문에 대한 답을 등록합니다.'
+    operationId: api.rest.question.register_user_answer
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              question_id:
+                type: integer
+              answer_id:
+                type: integer
+    responses:
+      "200":
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                okay:
+                  type: boolean
+                  example: true
+
+answered_question:
+  get:
+    security:
+      - Authorization: []
+    description: 대답 완료된 질문 목록을 불러 옵니다.
+    operationId: api.rest.question.get_answered_questions
+    responses:
+      "200":
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questions:
+                  type: array
+                  example: true
+
+unanswered_question:
+  get:
+    security:
+      - Authorization: []
+    description: 대답 한 적 없 질문 목록을 불러 옵니다.
+    operationId: api.rest.question.get_unanswered_questions
+    responses:
+      "200":
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questions:
+                  type: array
+                  example: true
+

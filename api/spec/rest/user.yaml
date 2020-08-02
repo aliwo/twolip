@@ -1,6 +1,6 @@
 signup:
   post:
-    description: '회원가'
+    description: '회원가입'
     operationId: api.rest.user.sign_up
     requestBody:
       required: true

@@ -20,5 +20,4 @@ class Answer(Base):
             'id': self.id,
             'word': self.word,
             'question_id': self.question_id,
-            'question': self.question,
         }

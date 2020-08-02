@@ -9,6 +9,7 @@ paths:
   /:
     $ref: 'rest/health.yaml#/hi'
 
+  # Users
   /users/signup:
     $ref: 'rest/user.yaml#/signup'
   /users/login:
@@ -16,8 +17,19 @@ paths:
   /users/me:
     $ref: 'rest/user.yaml#/me'
 
+  # Sms
   /sms:
     $ref: 'rest/sms.yaml#/sms'
+
+  # Questions & Answers
+  /question/match:
+    $ref: 'rest/question.yaml#/match_question'
+  /question/answered:
+    $ref: 'rest/question.yaml#/answered_question'
+  /question/unanswered:
+    $ref: 'rest/question.yaml#/unanswered_question'
+  /answers:
+    $ref: 'rest/question.yaml#/answer'
 
 
 components:

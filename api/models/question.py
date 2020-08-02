@@ -23,5 +23,5 @@ class Question(Base):
             'id': self.id,
             'word': self.word,
             'category_id': self.category_id,
-            'category': self.category,
+            'answers': [a.json() for a in self.answers]
         }
