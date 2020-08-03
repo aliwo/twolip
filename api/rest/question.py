@@ -1,11 +1,11 @@
 from flask import request, g
 from sqlalchemy.orm.exc import NoResultFound
 
-from api.models.category import Category
-from api.models.answer import Answer
 from api.models.match_question import MatchQuestion
-from api.models.question import Question
 from api.models.user_answer import UserAnswer
+from api.models.question import Question
+from api.models.answer import Answer
+from api.models.category import Category
 from libs.database.engine import Session, afr
 from libs.route.errors import ClientError
 from libs.route.router import route
@@ -22,14 +22,15 @@ def register_match_question():
     if len(request.json.get('question_ids')) > 5:
         raise ClientError('too much match questions')
 
-    questions = Session().query(UserAnswer).filter((UserAnswer.question_id.in_(request.json.get('question_ids')))).all()
-    if len(questions) != len(request.json.get('question_ids')):
-        raise ClientError('UnAnswered Question(s) exist')
+    answers = Session().query(UserAnswer).filter((UserAnswer.question_id.in_(request.json.get('question_ids')))
+                                                 & (UserAnswer.user_id == g.user_session.user.id)).all()
+    if len(answers) != len(request.json.get('question_ids')):
+        raise ClientError('Unanswered Question(s) exist')
 
     Session().query(MatchQuestion).filter((MatchQuestion.user_id == g.user_session.user.id)).delete()
     Session().flush()
 
-    match_questions = [MatchQuestion(user_id=g.user_session.user.id, question_id=q.id) for q in questions]
+    match_questions =  [MatchQuestion(user_id=g.user_session.user.id, question_id=q.id) for q in answers]
     afr(*match_questions)
     Session().commit()
     return {'okay': True}, Status.HTTP_200_OK
@@ -38,15 +39,9 @@ def register_match_question():
 @route
 def register_user_answer():
     '''
-    이미 대답이 있는 경우 update
+    이미 대답이 있는 경우에는 update
     아니면 insert
     '''
-    user_answer = Session().query(UserAnswer).filter((UserAnswer.question_id == request.json.get('question_id'))
-                                                     & (UserAnswer.user_id == g.user_session.user.id)).one_or_none()
-    if user_answer is None:
-        user_answer = afr(UserAnswer(user_id=g.user_session.user.id, question_id=request.json.get('question_id')))
-
-    # 물론 question_id 와 answer_id 가 일치하는 answer 를 한 번 쿼리하는 방법도 있습니다.
     try:
         question = Session().query(Question).filter((Question.id == request.json.get('question_id'))).one()
     except NoResultFound:
@@ -56,6 +51,12 @@ def register_user_answer():
         answer = Session().query(Answer).filter((Answer.id == request.json.get('answer_id'))).one()
     except NoResultFound:
         raise ClientError(f'No Answer #:{request.json.get("answer_id")}', Status.HTTP_404_NOT_FOUND)
+
+    user_answer = Session().query(UserAnswer).filter((UserAnswer.question_id == request.json.get('question_id'))
+                                                     & (UserAnswer.user_id == g.user_session.user.id)).one_or_none()
+
+    if user_answer is None:
+        user_answer = UserAnswer(user_id=g.user_session.user.id, question_id=request.json.get('question_id'))
 
     if answer.question_id != question.id:
         raise ClientError('Irrelevant q & a')
@@ -69,23 +70,21 @@ def register_user_answer():
 def get_answered_questions():
     '''
     대답 했던 질문 목록 리턴
-    Question 목록을 조회하되, user_answer 를 right join 한다.
-    order_by category_id
+    UserAnswer 를 쿼리하되, Question
     '''
-    return {'questions': [a.question.json() for a in Session().query(UserAnswer)
+    return {'questions': [ua.question.json() for ua in Session().query(UserAnswer)
+        .filter((UserAnswer.user_id == g.user_session.user.id))\
         .join(Question).order_by(Question.category_id).all()]}, Status.HTTP_200_OK
+
 
 @route
 def get_unanswered_questions():
     '''
-    대답 안 한 질문 목록 리턴. right 를 제외한 left join.
-    먼저 user_id 가 일치하는 user_answer 들을 쿼리한 다음
-    해당 user_answer.question_id 에 들어 있지 않는 모든 question 을 쿼리한다.
+    대답 안한 질문 목록을 리턴합니다.
     '''
-    user_answers = Session().query(UserAnswer).filter((UserAnswer.user_id == g.user_session.user.id)).all()
+    user_answer = Session().query(UserAnswer).filter((UserAnswer.user_id == g.user_session.user.id)).all()
 
     return {'questions': [q.json() for q in Session().query(Question).filter(
-        (Question.id.notin_([x.question_id for x in user_answers])))
-        .order_by(Question.category_id).all()]}, Status.HTTP_200_OK
-
+        (Question.id.notin_([ua.question_id for ua in user_answer]))
+    ).order_by(Question.category_id).all()]}, Status.HTTP_200_OK
 

@@ -28,7 +28,6 @@ class User(Base):
         :param kwargs:
         '''
         super().__init__(**kwargs)
-        self.phone = None
         self.password = self.gen_password_hash(password)
 
     @classmethod
