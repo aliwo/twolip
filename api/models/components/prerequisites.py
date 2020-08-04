@@ -1,7 +1,7 @@
 
 class Prerequisites:
 
-    base_model = None
+    base_model = None # placeholder
 
     def __init__(self):
         self.result = {}
@@ -20,6 +20,4 @@ class Prerequisites:
 
     def get_result(self):
         return self.result
-
-
 

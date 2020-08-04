@@ -15,3 +15,4 @@ class prerequisites:
             g.pr_result = self.inspector.get_result()
             return func(*args, **kwargs)
         return decorated
+

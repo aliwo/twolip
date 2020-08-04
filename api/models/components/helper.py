@@ -1,12 +1,11 @@
 from flask import request
-from sqlalchemy import ForeignKey, inspect
-from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
-from libs.status import Status
 from libs.route.errors import ClientError
+from libs.status import Status
 
 
-class PrerequisitesHelper():
+class PrerequisitesHelper:
 
     def __init__(self, base_model, default_iter):
         self.base_model = base_model
@@ -18,19 +17,19 @@ class PrerequisitesHelper():
 
     def must_have(self, attr, code=Status.HTTP_400_BAD_REQUEST):
         if attr not in self.get_iter():
-            raise ClientError('{} required'.format(attr), code)
+            raise ClientError(f'{attr} required', code)
         return self.get_iter().get(attr)
 
     def must_equal(self, attr, value, code=Status.HTTP_400_BAD_REQUEST):
         val = self.must_have(attr)
         if not val is value:
-            raise ClientError('{} is not {}'.format(attr, value), code)
+            raise ClientError(f'{attr} is not {value}', code)
         return val
 
     def must_one(self, query, code=Status.HTTP_404_NOT_FOUND):
         try:
             return query.one()
-        except NoResultFound:
+        except (NoResultFound, MultipleResultsFound) as e:
             raise ClientError('object not found', code)
 
     def must_none(self, query, code=Status.HTTP_400_BAD_REQUEST):
@@ -41,12 +40,11 @@ class PrerequisitesHelper():
     def must_relate(self, user, model, foreign_value=None):
         '''
         model 에서 user id 와 연결된 컬럼이 있는지 조사하고
-        만약 있다면 해당 컬럼 값이 user id 와 일치하는지 확인합니다.
-        만약 아니라면 '내 것'이 아니므로 에러!
+        만약 있다면 해당 컬럼 값이 user id와 일치하는지 확인합니다.
+        만약 아니라면 '내 것'아 아니므로 에러!
 
         주의!
-        user_id 와 다수의 relationship 을 맺는 테이블을 상대로 사용하려면 foreign_value 를
-        사용해서 직접 어떤 값을 조사할지 지시해주어야 합니다.
+        user_id와 다수의 relationship 을 맺는 테이블을 상대로 사용하려면 foreign_value 를
         '''
         if not user:
             raise ClientError('not yours', Status.HTTP_470_NOT_YOURS)

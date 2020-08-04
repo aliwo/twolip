@@ -30,7 +30,7 @@ def register_match_question():
     Session().query(MatchQuestion).filter((MatchQuestion.user_id == g.user_session.user.id)).delete()
     Session().flush()
 
-    match_questions =  [MatchQuestion(user_id=g.user_session.user.id, question_id=q.id) for q in answers]
+    match_questions = [MatchQuestion(user_id=g.user_session.user.id, question_id=q.id) for q in answers]
     afr(*match_questions)
     Session().commit()
     return {'okay': True}, Status.HTTP_200_OK

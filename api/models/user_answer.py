@@ -3,7 +3,6 @@ from sqlalchemy.orm import relationship
 
 from libs.database.types import Base
 
-
 class UserAnswer(Base):
     __tablename__ = 'user_answers'
     __table_args__ = (UniqueConstraint('user_id', 'question_id', name='user_question_unique'), )
