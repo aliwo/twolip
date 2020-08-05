@@ -1,0 +1,13 @@
+sms_auth:
+  description: ''
+  properties:
+    auth_key:
+      type: string
+    auth_value:
+      type: string
+    expiration:
+      type: string
+    id:
+      type: integer
+    phone_num:
+      type: string

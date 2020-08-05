@@ -1,0 +1,7 @@
+category:
+  description: 카테고리 모델 클래스
+  properties:
+    id:
+      type: integer
+    title:
+      type: string

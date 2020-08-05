@@ -1,0 +1,9 @@
+match_question:
+  description: ''
+  properties:
+    id:
+      type: integer
+    question_id:
+      type: integer
+    user_id:
+      type: integer

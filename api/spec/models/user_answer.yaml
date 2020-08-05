@@ -1,0 +1,11 @@
+user_answer:
+  description: ''
+  properties:
+    answer_id:
+      type: integer
+    id:
+      type: integer
+    question_id:
+      type: integer
+    user_id:
+      type: integer

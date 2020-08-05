@@ -1,0 +1,28 @@
+user:
+  description: user class
+  properties:
+    answers:
+      description: 유저가 대답한 답들
+      type: object
+    company:
+      type: string
+    id:
+      type: integer
+    job:
+      type: string
+    major:
+      type: string
+    nick_name:
+      type: string
+    password:
+      type: string
+    phone:
+      type: string
+    picture:
+      type: string
+    religion:
+      type: string
+    school:
+      type: string
+    smoke:
+      type: boolean

@@ -1,0 +1,13 @@
+user_session:
+  description: ''
+  properties:
+    activated:
+      type: boolean
+    expiry:
+      type: string
+    id:
+      type: integer
+    token:
+      type: string
+    user_id:
+      type: integer

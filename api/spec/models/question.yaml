@@ -1,0 +1,9 @@
+question:
+  description: ''
+  properties:
+    category_id:
+      type: integer
+    id:
+      type: integer
+    word:
+      type: string

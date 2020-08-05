@@ -1,0 +1,9 @@
+answer:
+  description: ''
+  properties:
+    id:
+      type: integer
+    question_id:
+      type: integer
+    word:
+      type: string

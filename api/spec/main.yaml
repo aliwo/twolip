@@ -38,3 +38,10 @@ components:
       type: http
       scheme: bearer
       x-bearerInfoFunc: libs.route.login_required.login_required
+  schemas:
+    answer:
+      $ref: 'models/answer.yaml#/answer'
+    category:
+      $ref: 'models/category.yaml#/category'
+    user:
+      $ref: 'models/user.yaml#/user'
