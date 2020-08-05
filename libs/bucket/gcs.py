@@ -1,4 +1,3 @@
-
 from __future__ import absolute_import
 
 from datetime import datetime
@@ -10,9 +9,9 @@ from werkzeug.utils import secure_filename
 from werkzeug.exceptions import BadRequest
 
 
-PROJECT_ID = 'soyeon-275107'
+PROJECT_ID = 'bucket-project-285506'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-BUCKET = 'soyeonlab'
+BUCKET = 'twolip'
 
 def _get_storage_client():
     return storage.Client(project=PROJECT_ID)
@@ -38,7 +37,7 @@ def _safe_filename(filename):
     return f'{basename}-{date}.{extension}'
 
 
-def upload_file(file_stream, filename, content_type):
+def upload_file(file, filename):
     '''
 
     :param file_stream:
@@ -54,8 +53,8 @@ def upload_file(file_stream, filename, content_type):
     blob = bucket.blob(filename)
 
     blob.upload_from_string(
-        file_stream,
-        content_type=content_type)
+        file.read(),
+        content_type=file.content_type)
 
     url = blob.public_url
 
@@ -63,3 +62,8 @@ def upload_file(file_stream, filename, content_type):
         url = url.decode('utf-8')
 
     return url
+
+# with open('dog.jpg', 'rb') as f:
+#     print(upload_file(f, 'hihi.jpg'))
+
+

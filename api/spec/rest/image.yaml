@@ -1,0 +1,27 @@
+image:
+  post:
+    security:
+      - Authorization: []
+    description: imgae 를 s3 에 업로드 한 뒤, url 을 전달 받습니다.
+    operationId: api.rest.image.upload_image
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              image:
+                type: string
+                format: binary
+    responses:
+      "200":
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  example: https://storage.googleapis.com/soyeonlab/dog-2020-05-14-201910.png

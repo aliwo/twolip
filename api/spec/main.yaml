@@ -17,6 +17,10 @@ paths:
   /users/me:
     $ref: 'rest/user.yaml#/me'
 
+  # Image
+  /image:
+    $ref: 'rest/image.yaml#/image'
+
   # Sms
   /sms:
     $ref: 'rest/sms.yaml#/sms'

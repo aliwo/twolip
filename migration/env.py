@@ -72,7 +72,7 @@ def run_migrations_online():
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection, target_metadata=target_metadata, user_module_prefix='TwolipTypes.'
         )
 
         with context.begin_transaction():

@@ -5,6 +5,7 @@ from sqlalchemy import Column
 from sqlalchemy.dialects.mysql import CHAR, TEXT, DATETIME, BOOLEAN
 
 from libs.database.types import Base
+from libs.database.types import TwolipTypes
 
 
 class User(Base):
@@ -12,7 +13,7 @@ class User(Base):
     phone = Column(CHAR(15), unique=True)
     password = Column(TEXT)
     nick_name = Column(CHAR(50), unique=True)
-    picture = Column(TEXT)
+    pictures = Column(TwolipTypes.TextTuple)
     registered_at = Column(DATETIME, default=datetime.now())
 
     # profile
@@ -39,7 +40,7 @@ class User(Base):
             'id': self.id,
             'phone': self.phone,
             'nick_name': self.nick_name,
-            'picture': self.picture,
+            'pictures': self.pictures,
             'religion': self.religion,
             'smoke': self.smoke,
             'job': self.job,
