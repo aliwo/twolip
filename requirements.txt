@@ -33,7 +33,7 @@ openapi-spec-validator==0.2.8
 packaging==20.4
 pluggy==0.13.1
 prance==0.19.0
-protobuf==3.12.4
+protobuf==3.15.0
 py==1.9.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
